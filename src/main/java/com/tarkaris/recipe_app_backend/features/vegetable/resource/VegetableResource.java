@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/vegetable")
 public class VegetableResource {
@@ -32,7 +34,7 @@ public class VegetableResource {
         this.vegetableRepository = vegetableRepository;
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Vegetable> addVegetable(@ModelAttribute NewVegetable dto) {
         String imageUrl = fileStorageService.saveFile(dto.image());
 
@@ -45,6 +47,11 @@ public class VegetableResource {
 
         Vegetable saved = vegetableRepository.save(vegetable);
         return ResponseEntity.ok(saved);
+    }
+
+    @GetMapping(path = "")
+    public ResponseEntity<List<Vegetable>> getAllVegetables() {
+        return ResponseEntity.ok(vegetableRepository.findAll());
     }
 }
 

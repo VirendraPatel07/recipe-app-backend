@@ -17,6 +17,9 @@ public class FileStorageService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    @Value("${IMAGE_HOST}")
+    private String image_host;
+
 //    public String saveFile(MultipartFile file) {
 //        try {
 //            // Ensure the upload directory exists
@@ -52,7 +55,7 @@ public class FileStorageService {
                 Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
                 // Return relative URL path (for frontend access)
-                return "/images/vegetables/" + filename;
+                return image_host + "/images/vegetables/" + filename;
             } catch (IOException ex) {
                 throw new RuntimeException("Could not store file: " + file.getOriginalFilename(), ex);
             }
